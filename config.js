@@ -5,7 +5,7 @@
 
 // URL Apps Script sau khi deploy Code.gs (chỉ dành cho tổng hợp)
 // Lấy tại: script.google.com → Triển khai → Triển khai mới → Ứng dụng web
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9kgxINOMFVDctX8XIfG4vlrYDeWsT_qkMjqEDvxxdJX6YpOstvM-6HrJ1lxVq5Njbnw/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUo91VCFfBws-1bzxHbhj29gfKdkGrdM683de-SHqMuzcBNpjBnP-YPnFHjKT3-Oay/exec';
 
 // Link thư mục Google Drive chứa file góp ý (mặc định)
 // Dán link thư mục vào đây — app sẽ tự dùng
