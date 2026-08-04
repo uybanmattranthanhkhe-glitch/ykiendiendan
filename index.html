@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diễn đàn Nhân dân góp ý CAND phường 2026</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #e8eeec;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      line-height: 1.6;
+      color: #1e2b2c;
+      padding: 20px 16px 60px;
+    }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 30px 28px;
+      box-shadow: 0 8px 30px rgba(0, 40, 20, 0.1);
+      border: 1px solid #d0e6dc;
+    }
+
+    /* ── NỀN CARO XÉO NHẸ ───────────────── */
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.06;
+      background-image:
+        repeating-linear-gradient(45deg, #1e3a8a 0, #1e3a8a 1.2px, transparent 0, transparent 50%),
+        repeating-linear-gradient(-45deg, #1e3a8a 0, #1e3a8a 1.2px, transparent 0, transparent 50%);
+      background-size: 10px 10px;
+      pointer-events: none;
+    }
+
+    /* ── HEADER / TIÊU ĐỀ ───────────────── */
+    .header {
+      text-align: center;
+      border-bottom: 3px solid #1b7a4a;
+      padding-bottom: 22px;
+      margin-bottom: 28px;
+    }
+    .header .sub {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #1b7a4a;
+      font-weight: 600;
+    }
+    .header h1 {
+      font-size: clamp(22px, 5vw, 34px);
+      text-shadow: 0 0 3px rgba(15, 92, 58, 1.00), 0 0 3px rgba(0, 0, 0, 1.00);
+      font-weight: 700;
+      color: white;
+      margin: 6px 0 10px;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+    .header p {
+      font-size: 15px;
+      color: #3d5a4e;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* ── CARD CHUNG ───────────────── */
+    .card {
+      border-radius: 16px;
+      padding: 20px 22px 24px;
+      margin-bottom: 24px;
+    }
+    .card h2 {
+      font-size: 19px;
+      font-weight: 700;
+      color: #0f5c3a;
+      text-align: center;
+      margin: 0 0 8px 0;
+      padding-bottom: 12px;
+    }
+    .card h2::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background: #1b7a4a;
+      border-radius: 2px;
+      margin: 10px auto 0;
+    }
+    .card .hint {
+      font-size: 13px;
+      color: #4d6b5e;
+      margin: 0 0 20px 0;
+      text-align: center;
+    }
+
+    /* ── CARD: THÔNG TIN CÁ NHÂN (nền trắng) ── */
+    .card-info {
+      background: #ffffff;
+      border: 1px solid #d7e9e0;
+    }
+
+    /* ── CARD: NỘI DUNG GÓP Ý (nền riêng) ── */
+    .card-content {
+      background: #f0f8f4;
+      border: 1px solid #b8d9c8;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      margin: 14px 0 4px;
+      color: #1e3d31;
+    }
+    input[type="text"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #cde0d6;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #ffffff;
+      transition: 0.2s;
+    }
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #1b7a4a;
+      box-shadow: 0 0 0 3px rgba(27, 122, 74, 0.15);
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    /* ── TOPIC (mỗi mục góp ý) ───────────────── */
+    .topic {
+      background: #ffffff;
+      border: 1px solid #cde0d6;
+      border-radius: 14px;
+      padding: 18px 18px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 10px rgba(15, 92, 58, 0.05);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .topic:hover {
+      box-shadow: 0 6px 18px rgba(15, 92, 58, 0.1);
+    }
+    .topic:last-child {
+      margin-bottom: 0;
+    }
+    .topic:nth-child(odd) {
+      background: #fafffd;
+    }
+    .topic-head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .topic-num {
+      flex: 0 0 34px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1b7a4a, #0f5c3a);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(15, 92, 58, 0.3);
+    }
+    .topic-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e3d31;
+      max-width: 520px;
+    }
+    .topic.note {
+      background: #eaf6f0;
+      border: 1.5px solid #6cb894;
+    }
+    .topic.note .topic-num {
+      background: linear-gradient(135deg, #e0a800, #b8860b);
+    }
+    .topic.note .topic-title {
+      color: #0f5c3a;
+    }
+
+    /* ── NÚT GỬI ───────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      width: 100%;
+      background: #1b7a4a;
+      color: #fff;
+      transition: 0.15s;
+    }
+    .btn:hover {
+      background: #0f5c3a;
+      transform: scale(1.01);
+    }
+    .btn:disabled {
+      background: #92b8a4;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn.sending {
+      filter: blur(1px);
+      opacity: 0.65;
+      pointer-events: none;
+    }
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.5);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── TRẠNG THÁI ───────────────── */
+    .status {
+      margin-top: 18px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: none;
+    }
+    .status.show {
+      display: block;
+    }
+    .status.ok {
+      background: #dff0e8;
+      color: #0f5c3a;
+      border: 1px solid #b8d9c8;
+    }
+    .status.err {
+      background: #fde8e8;
+      color: #a13d3d;
+      border: 1px solid #f5c2c2;
+    }
+    .status.busy {
+      background: #f1f7f3;
+      color: #3d5a4e;
+      border: 1px solid #cde0d6;
+    }
+
+    /* ── CẢNH BÁO CẤU HÌNH ───────────────── */
+    .config-notice {
+      background: #fff9e0;
+      border: 1px solid #f5d97e;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #6b5a1e;
+      display: none;
+    }
+    .config-notice code {
+      background: #f1f1f1;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    /* ── FOOTER ───────────────── */
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #4d6b5e;
+      margin-top: 24px;
+      border-top: 1px solid #d4e6dc;
+      padding-top: 22px;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 18px 14px;
+      }
+      .card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+
+<div class="container">
+  <!-- ===== TIÊU ĐỀ ===== -->
+  <div class="header">
+    <div class="sub">ỦY BAN MẶT TRẬN TỔ QUỐC VIỆT NAM<br>Phường Thanh Khê · Năm 2026</div>
+    <h1>Diễn đàn "Nhân dân tham gia góp ý xây dựng lực lượng Công an nhân dân phường"</h1>
+    <p>(Ý kiến của quý vị sẽ được tổng hợp để chuẩn bị nội dung Diễn đàn).</p>
+  </div>
+
+  <!-- ===== CẢNH BÁO CẤU HÌNH ===== -->
+  <div class="config-notice" id="configNotice">
+    ⚠️ <strong>Chưa cấu hình kết nối đến Google Drive.</strong><br />
+    Vui lòng mở file <code>index.html</code>, tìm dòng <code>const API_URL = '';</code> và điền URL của Web App Google Apps Script (xem hướng dẫn bên dưới).
+  </div>
+
+  <!-- ===== THÔNG TIN CÁ NHÂN (nền trắng) ===== -->
+  <div class="card card-info">
+    <h2>Thông tin người góp ý</h2>
+    <p class="hint">Không bắt buộc — bạn có thể để trống toàn bộ nếu muốn ẩn danh.</p>
+    <label for="hoten">Họ và tên</label>
+    <input type="text" id="hoten" placeholder="Nguyễn Văn A" />
+    <label for="sdt">Số điện thoại</label>
+    <input type="tel" id="sdt" placeholder="09xxxxxxxx" />
+    <label for="diachi">Địa chỉ</label>
+    <input type="text" id="diachi" placeholder="Số nhà, đường phố, ..." />
+  </div>
+
+  <!-- ===== NỘI DUNG GÓP Ý (nền riêng) ===== -->
+  <div class="card card-content">
+    <h2>Nội dung góp ý</h2>
+    <p class="hint">Bạn có thể góp ý tất cả các mục hoặc chỉ chọn một số — chỉ những mục có nội dung sẽ được đưa vào văn bản.</p>
+    <div id="topics"></div>
+  </div>
+
+  <!-- ===== NÚT GỬI ===== -->
+  <button class="btn" id="btnGui">Gửi góp ý</button>
+  <div class="status" id="status"></div>
+
+  <footer>
+    Ý kiến góp ý sẽ được Uỷ Ban Mặt Trận Tổ Quốc Việt Nam phường Thanh Khê tiếp nhận và tổng hợp .
+  </footer>
+</div>
+
+<script>
+  // ===== DANH SÁCH CÁC MỤC GÓP Ý =====
+  const TOPICS = [
+    "Công tác bảo đảm an ninh chính trị, trật tự an toàn xã hội tại khu dân cư",
+    "Công tác phòng, chống tội phạm, tệ nạn xã hội; phòng cháy, chữa cháy; an toàn giao thông; quản lý cư trú",
+    "Việc triển khai thực hiện Nghị quyết số 02-NQ/ĐU ngày 21/10/2025 của Ban Chấp hành Đảng bộ phường về phòng, chống ma túy và mục tiêu chuyển hóa, giảm mức độ trọng điểm, phức tạp về ma túy trên địa bàn phường Thanh Khê giai đoạn 2025–2030",
+    "Việc giải quyết thủ tục hành chính, tiếp nhận và xử lý tin báo, phản ánh của Nhân dân",
+    "Tinh thần, trách nhiệm, thái độ phục vụ Nhân dân của cán bộ, chiến sĩ Công an phường",
+    "Hiệu quả triển khai phong trào toàn dân bảo vệ an ninh Tổ quốc, các mô hình bảo đảm an ninh trật tự trên địa bàn sau khi thực hiện mô hình chính quyền địa phương 2 cấp",
+    "Hoạt động của lực lượng an ninh cơ sở",
+    "Các giải pháp, kiến nghị nhằm nâng cao hiệu quả công tác bảo đảm an ninh trật tự và xây dựng lực lượng Công an nhân dân phường trong sạch, vững mạnh"
+  ];
+
+  // ===== RENDER CÁC TEXTAREA =====
+  const topicsContainer = document.getElementById('topics');
+  TOPICS.forEach((title, index) => {
+    const div = document.createElement('div');
+    div.className = 'topic';
+    div.innerHTML = `
+      <div class="topic-head">
+        <div class="topic-num">${index + 1}</div>
+        <div class="topic-title">${title}</div>
+      </div>
+      <textarea id="topic-${index}" placeholder="Nhập ý kiến của bạn (để trống nếu không góp ý mục này)..."></textarea>
+    `;
+    topicsContainer.appendChild(div);
+  });
+
+  // ===== CẤU HÌNH API URL =====
+  // 👇 THAY URL NÀY BẰNG URL WEB APP SAU KHI TRIỂN KHAI
+  const API_URL = 'https://script.google.com/macros/s/AKfycbyStoE8Hd25GyGM3GjsD-ajCZEhmdF9kKXIaJK312IARDbt9hy7LOmVWnwhn2nm3PuGCw/exec'; // ⚠️ PHẢI ĐIỀN URL VÀO ĐÂY
+
+  // ===== XỬ LÝ GỬI DỮ LIỆU =====
+  const statusEl = document.getElementById('status');
+  const btn = document.getElementById('btnGui');
+  const configNotice = document.getElementById('configNotice');
+
+  // Hiển thị cảnh báo nếu chưa cấu hình API_URL
+  if (!API_URL) {
+    configNotice.style.display = 'block';
+  }
+
+  function setStatus(type, msg) {
+    statusEl.className = 'status show ' + type;
+    statusEl.textContent = msg;
+  }
+
+  btn.addEventListener('click', async () => {
+    // Kiểm tra API_URL
+    if (!API_URL) {
+      setStatus('err', '❌ Chưa cấu hình API_URL. Vui lòng mở file index.html và điền URL Web App của Google Apps Script (xem hướng dẫn).');
+      return;
+    }
+
+    // Thu thập thông tin người góp ý
+    const info = {
+      hoten: document.getElementById('hoten').value.trim(),
+      sdt: document.getElementById('sdt').value.trim(),
+      diachi: document.getElementById('diachi').value.trim()
+    };
+
+    // Thu thập ý kiến
+    const entries = [];
+    TOPICS.forEach((title, i) => {
+      const val = document.getElementById('topic-' + i).value.trim();
+      if (val) {
+        entries.push({ index: i + 1, title, content: val });
+      }
+    });
+
+    if (entries.length === 0) {
+      setStatus('err', 'Vui lòng nhập ít nhất một nội dung góp ý trước khi gửi.');
+      return;
+    }
+
+    // Làm mờ + khóa nút trong lúc gửi
+    btn.disabled = true;
+    btn.classList.add('sending');
+    const originalBtnText = btn.innerHTML;
+    btn.innerHTML = '<span class="spinner"></span> Đang gửi…';
+    setStatus('busy', 'Đang gửi dữ liệu, vui lòng chờ trong giây lát…');
+
+    try {
+      const payload = { info, entries };
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Lỗi ${response.status}: ${errorText}`);
+      }
+
+      const result = await response.json();
+      if (result.status === 'success') {
+        setStatus('ok', '✅ Góp ý đã được gửi thành công! Tệp đã được lưu vào Drive. Cảm ơn bạn.');
+        // Xóa nội dung các textarea
+        document.querySelectorAll('#topics textarea').forEach(t => t.value = '');
+      } else {
+        setStatus('err', '❌ ' + (result.message || 'Lỗi không xác định từ máy chủ.'));
+      }
+    } catch (error) {
+      console.error('Lỗi fetch:', error);
+      setStatus('err', '❌ Đã xảy ra lỗi: ' + error.message + '. Vui lòng kiểm tra lại URL Web App và cách triển khai (xem hướng dẫn bên dưới).');
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('sending');
+      btn.innerHTML = originalBtnText;
+    }
+  });
+</script>
+
+</body>
+</html>
