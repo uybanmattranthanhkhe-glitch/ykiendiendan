@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tổng hợp góp ý CAND phường 2026</title>
+    <script src="config.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://unpkg.com/docx@8.2.3/build/index.umd.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e3a8a;
+            text-align: center;
+            border-bottom: 3px solid #1e3a8a;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+        h1 small {
+            display: block;
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 400;
+            margin-top: 5px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: #eff6ff;
+            border-radius: 8px;
+            padding: 6px 8px;
+            text-align: center;
+            border: 1px solid #dbeafe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .stat-card .text {
+            text-align: left;
+            line-height: 1.15;
+        }
+        .stat-card .number {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+        .stat-card .label {
+            font-size: 10px;
+            color: #64748b;
+            white-space: nowrap;
+        }
+        .stat-card .icon { font-size: 15px; }
+        .stat-card.green .number { color: #16a34a; }
+        .stat-card.orange .number { color: #d97706; }
+        .stat-card.purple .number { color: #7c3aed; }
+        .stat-card.red .number { color: #dc2626; }
+
+        .toolbar {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 180px;
+            flex: 1 0 auto;
+            max-width: 220px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .btn-primary {
+            background: #1e3a8a;
+            color: white;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30,58,138,0.3);
+        }
+        .btn-success {
+            background: #16a34a;
+            color: white;
+        }
+        .btn-success:hover:not(:disabled) {
+            background: #15803d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(22,163,74,0.3);
+        }
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+        .btn-danger:hover:not(:disabled) {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220,38,38,0.3);
+        }
+        .btn-outline {
+            background: white;
+            color: #1e3a8a;
+            border: 2px solid #1e3a8a;
+        }
+        .btn-outline:hover:not(:disabled) {
+            background: #eff6ff;
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+            background: #cbd5e1 !important;
+            color: #64748b !important;
+            filter: grayscale(0.4);
+        }
+        .btn .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Ẩn nút Debug */
+        #btnDebug {
+            display: none !important;
+        }
+
+        .status {
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+            font-size: 14px;
+            text-align: center;
+        }
+        .status.show { display: block; }
+        .status.ok { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+        .status.err { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; }
+        .status.busy { background: #eff6ff; color: #1e3a8a; border: 1px solid #93c5fd; }
+        .status.wrn { background: #fffbeb; color: #92400e; border: 1px solid #fcd34d; }
+
+        .config-error {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #991b1b;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+        }
+        .config-error code {
+            background: rgba(153,27,27,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        /* ── FOLDER INFO ── */
+        .folder-info {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .folder-info .label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e3a8a;
+        }
+        .folder-info .path {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+            word-break: break-all;
+        }
+        .folder-info .status-badge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .folder-info .status-badge.loading { background: #fef3c7; color: #92400e; }
+        .folder-info .status-badge.ok { background: #dcfce7; color: #166534; }
+        .folder-info .status-badge.err { background: #fef2f2; color: #991b1b; }
+        .folder-info .status-badge.info { background: #dbeafe; color: #1e3a8a; }
+
+        /* ── FILE LIST ── */
+        .file-list {
+            margin-top: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+        .file-item:last-child { border-bottom: none; }
+        .file-item .icon { font-size: 18px; }
+        .file-item .name { flex: 1; }
+        .file-item .status-badge {
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+        .file-item .status-badge.ok { background: #dcfce7; color: #166534; }
+        .file-item .status-badge.err { background: #fef2f2; color: #991b1b; }
+        .file-item .status-badge.wait { background: #fef3c7; color: #92400e; }
+
+        /* ── SECTIONS ── */
+        .section-group {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .section-header {
+            background: #1e3a8a;
+            color: white;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+        }
+        .section-header .count {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        .section-body {
+            padding: 12px 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .opinion-item {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .opinion-item:last-child { border-bottom: none; }
+        .opinion-item .content {
+            font-weight: 500;
+        }
+        .opinion-item .meta {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        .opinion-item .meta span {
+            margin-right: 12px;
+        }
+        .empty-msg {
+            color: #94a3b8;
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
+        .opinion-item .file-ref {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e3a8a;
+            padding: 1px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* ── PROGRESS ── */
+        .progress-wrap {
+            margin: 15px 0;
+            display: none;
+        }
+        .progress-wrap.show { display: block; }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            border-radius: 99px;
+            transition: width 0.3s;
+            width: 0%;
+        }
+        .progress-text {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        /* ── HIDDEN FOLDER PANEL ── */
+        #folderPanel {
+            display: none !important;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .container { padding: 16px; }
+            h1 { font-size: 22px; }
+            .section-header { flex-direction: column; gap: 6px; }
+            .toolbar .btn {
+                min-width: 140px;
+                flex: 1 1 45%;
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            .toolbar .btn {
+                min-width: 100%;
+                flex: 1 1 100%;
+            }
+        }
+
+        /* API URL hiển thị */
+        .api-info {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin: 10px 0;
+            font-size: 13px;
+            color: #475569;
+            text-align: center;
+            word-break: break-all;
+        }
+        .api-info .label {
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        .api-info .url {
+            font-family: monospace;
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .api-info .status {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .api-info .status.ok { background: #dcfce7; color: #166534; }
+        .api-info .status.err { background: #fef2f2; color: #991b1b; }
+        .api-info .status.checking { background: #fef3c7; color: #92400e; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>
+        📋 TỔNG HỢP GÓP Ý XÂY DỰNG CAND PHƯỜNG
+        <small>Diễn đàn "Nhân dân tham gia góp ý xây dựng lực lượng Công an nhân dân phường" - Năm 2026</small>
+    </h1>
+
+    <!-- CẢNH BÁO CẤU HÌNH -->
+    <div class="config-error" id="configError">
+        ⚠️ <strong>Chưa cấu hình kết nối.</strong><br>
+        Vui lòng mở file <code>config.js</code> và điền <code>APPS_SCRIPT_URL</code> (URL Web App sau khi deploy Code.gs).
+    </div>
+
+    <!-- THÔNG TIN API -->
+    <div class="api-info" id="apiInfo">
+        <span class="label">🔗 Kết nối API:</span>
+        <span class="status checking" id="apiStatus">⏳ Đang kiểm tra...</span>
+    </div>
+
+    <!-- THỐNG KÊ -->
+    <div class="stats" id="stats">
+        <div class="stat-card">
+            <span class="icon">📄</span>
+            <div class="text"><div class="number" id="totalFiles">0</div><div class="label">Tổng file DOCX</div></div>
+        </div>
+        <div class="stat-card green">
+            <span class="icon">✅</span>
+            <div class="text"><div class="number" id="readFiles">0</div><div class="label">File đã đọc</div></div>
+        </div>
+        <div class="stat-card orange">
+            <span class="icon">📝</span>
+            <div class="text"><div class="number" id="totalOpinions">0</div><div class="label">Tổng ý kiến</div></div>
+        </div>
+        <div class="stat-card purple">
+            <span class="icon">📊</span>
+            <div class="text"><div class="number" id="filledTopics">0</div><div class="label">Mục có ý kiến</div></div>
+        </div>
+        <div class="stat-card red">
+            <span class="icon">⚠️</span>
+            <div class="text"><div class="number" id="errorFiles">0</div><div class="label">File lỗi</div></div>
+        </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+        <button class="btn btn-outline" onclick="reloadFiles()">🔄 Tải lại file</button>
+        <button class="btn btn-success" onclick="processAllFiles()" id="btnProcess" disabled>⚡ Tổng hợp tất cả</button>
+        <button class="btn btn-success" onclick="exportWord()" id="btnExport" disabled>📄 Xuất Word tổng hợp</button>
+        <button class="btn btn-outline" onclick="showDebugLog()" id="btnDebug">🐛 Debug</button>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap" id="progressWrap">
+        <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">Đang xử lý...</div>
+    </div>
+
+    <!-- STATUS -->
+    <div class="status" id="status"></div>
+
+    <!-- FOLDER INFO (tự động) -->
+    <div class="folder-info" id="folderInfo">
+        <div class="label">📁 Thư mục đang tổng hợp</div>
+        <div class="status-badge loading" id="folderStatus">⏳ Đang kết nối...</div>
+    </div>
+
+    <!-- FILE LIST -->
+    <div id="filePanel">
+        <div style="font-weight:600; font-size:14px; color:#1e3a8a; margin-bottom:8px; text-align:center;">
+            📄 Danh sách file DOCX trong thư mục:
+        </div>
+        <div class="file-list" id="fileList">
+            <div style="text-align:center; padding:20px; color:#94a3b8;">Đang tải danh sách file...</div>
+        </div>
+    </div>
+
+    <!-- KẾT QUẢ TỔNG HỢP -->
+    <div id="resultPanel" style="display:none; margin-top:20px;">
+        <div style="font-weight:700; font-size:18px; color:#1e3a8a; margin-bottom:10px; border-bottom:2px solid #1e3a8a; padding-bottom:10px; text-align:center;">
+            📋 KẾT QUẢ TỔNG HỢP Ý KIẾN
+        </div>
+        <div style="display:flex; gap:10px; justify-content:center; margin-bottom:15px;">
+            <button class="btn btn-outline" style="padding:6px 16px; font-size:13px; min-width:auto; flex:0 1 auto;" onclick="toggleAllSections(true)">⬇️ Mở tất cả</button>
+            <button class="btn btn-outline" style="padding:6px 16px; font-size:13px; min-width:auto; flex:0 1 auto;" onclick="toggleAllSections(false)">⬆️ Thu gọn tất cả</button>
+        </div>
+        <div id="sectionsContainer"></div>
+    </div>
+</div>
+
+<script>
+    // ═══════════════════════════════════════════════════════════
+    // 8 MỤC GÓP Ý
+    // ═══════════════════════════════════════════════════════════
+    const TOPICS = [
+        "Công tác bảo đảm an ninh chính trị, trật tự an toàn xã hội tại khu dân cư",
+        "Công tác phòng, chống tội phạm, tệ nạn xã hội; phòng cháy, chữa cháy; an toàn giao thông; quản lý cư trú",
+        "Việc triển khai thực hiện Nghị quyết số 02-NQ/ĐU ngày 21/10/2025 của Ban Chấp hành Đảng bộ phường về phòng, chống ma túy và mục tiêu chuyển hóa, giảm mức độ trọng điểm, phức tạp về ma túy trên địa bàn phường Thanh Khê giai đoạn 2025–2030",
+        "Việc giải quyết thủ tục hành chính, tiếp nhận và xử lý tin báo, phản ánh của Nhân dân",
+        "Tinh thần, trách nhiệm, thái độ phục vụ Nhân dân của cán bộ, chiến sĩ Công an phường",
+        "Hiệu quả triển khai phong trào toàn dân bảo vệ an ninh Tổ quốc, các mô hình bảo đảm an ninh trật tự trên địa bàn sau khi thực hiện mô hình chính quyền địa phương 2 cấp",
+        "Hoạt động của lực lượng an ninh cơ sở",
+        "Các giải pháp, kiến nghị nhằm nâng cao hiệu quả công tác bảo đảm an ninh trật tự và xây dựng lực lượng Công an nhân dân phường trong sạch, vững mạnh"
+    ];
+
+    // ═══════════════════════════════════════════════════════════
+    // BIẾN TOÀN CỤC
+    // ═══════════════════════════════════════════════════════════
+    let allFiles = [];
+    let fileContents = {};
+    let groupedData = {};
+    let debugLog = [];
+    let selectedFolderId = '';
+    let selectedFolderName = '';
+    let isScanComplete = false;
+    let isApiConnected = false;
+
+    const statusEl = document.getElementById('status');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const btnProcess = document.getElementById('btnProcess');
+    const apiStatus = document.getElementById('apiStatus');
+
+    // ═══════════════════════════════════════════════════════════
+    // HÀM TIỆN ÍCH
+    // ═══════════════════════════════════════════════════════════
+    function setStatus(type, msg) {
+        statusEl.className = 'status show ' + type;
+        statusEl.textContent = msg;
+    }
+
+    function setProgress(pct, msg) {
+        progressWrap.classList.add('show');
+        progressFill.style.width = pct + '%';
+        progressText.textContent = msg + ` (${Math.round(pct)}%)`;
+    }
+
+    function hideProgress() {
+        progressWrap.classList.remove('show');
+    }
+
+    function esc(s) {
+        if (!s) return '';
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function getScriptUrl() {
+        return (typeof APPS_SCRIPT_URL !== 'undefined') ? APPS_SCRIPT_URL.trim() : '';
+    }
+
+    function getDefaultFolder() {
+        return (typeof DEFAULT_DRIVE_FOLDER !== 'undefined') ? DEFAULT_DRIVE_FOLDER.trim() : '';
+    }
+
+    function _addDebugLog(type, msg) {
+        debugLog.push({ type, msg, ts: Date.now() });
+        console.log(`[${type}]`, msg);
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    // Cập nhật trạng thái nút Tổng hợp
+    function updateProcessButton() {
+        if (isApiConnected && isScanComplete && allFiles.length > 0) {
+            btnProcess.disabled = false;
+        } else {
+            btnProcess.disabled = true;
+        }
+    }
+
+    // Hiển thị thông tin API (không hiển thị URL thực tế, chỉ báo trạng thái)
+    function updateApiInfo(url, status, statusText) {
+        apiStatus.textContent = statusText || '⏳ Đang kiểm tra...';
+        apiStatus.className = 'status ' + (status || 'checking');
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // KIỂM TRA KẾT NỐI
+    // ═══════════════════════════════════════════════════════════
+    async function testConnection() {
+        const url = getScriptUrl();
+        
+        // Hiển thị URL
+        updateApiInfo(url, 'checking', '⏳ Đang kiểm tra...');
+        
+        if (!url || url.includes('YOUR_SCRIPT_ID')) {
+            updateApiInfo(url, 'err', '❌ Chưa cấu hình');
+            return { ok: false, error: 'Chưa cấu hình APPS_SCRIPT_URL' };
+        }
+        
+        // Kiểm tra URL có hợp lệ không
+        try {
+            new URL(url);
+        } catch (e) {
+            updateApiInfo(url, 'err', '❌ URL không hợp lệ');
+            return { ok: false, error: 'URL không hợp lệ: ' + e.message };
+        }
+        
+        try {
+            const resp = await fetch(url + '?action=test', {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
+            
+            if (!resp.ok) {
+                throw new Error('HTTP ' + resp.status + ' - ' + resp.statusText);
+            }
+            
+            const data = await resp.json();
+            if (data && data.ok === true) {
+                updateApiInfo(url, 'ok', '✅ Kết nối thành công');
+                isApiConnected = true;
+                return { ok: true, data: data };
+            } else {
+                throw new Error(data.error || 'Phản hồi không hợp lệ từ server');
+            }
+        } catch (e) {
+            updateApiInfo(url, 'err', '❌ ' + e.message);
+            isApiConnected = false;
+            return { ok: false, error: e.message };
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // TỰ ĐỘNG LẤY FILE TỪ THƯ MỤC DUY NHẤT
+    // ═══════════════════════════════════════════════════════════
+    async function initApp() {
+        const url = getScriptUrl();
+        const defaultFolder = getDefaultFolder();
+
+        // Reset trạng thái
+        isScanComplete = false;
+        isApiConnected = false;
+        btnProcess.disabled = true;
+
+        // Kiểm tra cấu hình
+        if (!url || url.includes('YOUR_SCRIPT_ID')) {
+            document.getElementById('configError').style.display = 'block';
+            document.getElementById('btnExport').disabled = true;
+            document.getElementById('folderStatus').className = 'status-badge err';
+            document.getElementById('folderStatus').textContent = '❌ Chưa cấu hình API';
+            updateApiInfo(url, 'err', '❌ Chưa cấu hình');
+            return;
+        }
+
+        document.getElementById('configError').style.display = 'none';
+
+        // Kiểm tra kết nối
+        document.getElementById('folderStatus').className = 'status-badge loading';
+        document.getElementById('folderStatus').textContent = '⏳ Đang kiểm tra kết nối...';
+
+        const test = await testConnection();
+        if (!test.ok) {
+            document.getElementById('folderStatus').className = 'status-badge err';
+            document.getElementById('folderStatus').textContent = '❌ Lỗi: ' + (test.error || 'unknown');
+            setStatus('err', '❌ Không thể kết nối tới Apps Script: ' + (test.error || 'unknown'));
+            _addDebugLog('error', 'Test connection failed: ' + (test.error || 'unknown'));
+            updateProcessButton();
+            return;
+        }
+
+        document.getElementById('folderStatus').className = 'status-badge ok';
+        document.getElementById('folderStatus').textContent = '✅ Kết nối thành công';
+
+        // Tự động lấy danh sách file từ thư mục mặc định
+        if (defaultFolder) {
+            _addDebugLog('info', 'Tự động tải file từ thư mục: ' + defaultFolder);
+            await fetchFilesFromFolder(defaultFolder);
+        } else {
+            setStatus('err', '❌ Chưa cấu hình DEFAULT_DRIVE_FOLDER trong config.js');
+            document.getElementById('folderStatus').className = 'status-badge err';
+            document.getElementById('folderStatus').textContent = '❌ Chưa có thư mục';
+            isScanComplete = true;
+            updateProcessButton();
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // LẤY DANH SÁCH FILE TỪ THƯ MỤC
+    // ═══════════════════════════════════════════════════════════
+    async function fetchFilesFromFolder(folderUrl) {
+        const url = getScriptUrl();
+        if (!url || !isApiConnected) {
+            setStatus('err', '❌ Chưa kết nối được API');
+            return;
+        }
+
+        // Reset trạng thái
+        isScanComplete = false;
+        btnProcess.disabled = true;
+
+        document.getElementById('fileList').innerHTML = '<div style="text-align:center; padding:20px; color:#94a3b8;">⏳ Đang tìm thư mục...</div>';
+        setStatus('busy', '🔄 Đang tìm thư mục chứa file...');
+
+        try {
+            // Gọi API listFolders
+            const apiUrl = url + '?action=listFolders&folderUrl=' + encodeURIComponent(folderUrl);
+            _addDebugLog('info', 'Gọi API: ' + apiUrl);
+
+            const resp = await fetch(apiUrl);
+            if (!resp.ok) {
+                throw new Error('HTTP ' + resp.status + ' - ' + resp.statusText);
+            }
+
+            const data = await resp.json();
+            _addDebugLog('info', 'Response: ' + JSON.stringify(data).slice(0, 300));
+
+            if (!data.ok) {
+                throw new Error(data.error || 'Lỗi không xác định từ server');
+            }
+
+            const folders = data.folders || [];
+
+            if (folders.length === 0) {
+                setStatus('err', '❌ Không tìm thấy thư mục con nào có file .docx');
+                document.getElementById('fileList').innerHTML = '<div style="text-align:center; padding:20px; color:#94a3b8;">📭 Không tìm thấy thư mục con nào</div>';
+                document.getElementById('folderStatus').className = 'status-badge err';
+                document.getElementById('folderStatus').textContent = '❌ Không có thư mục con';
+                isScanComplete = true;
+                updateProcessButton();
+                return;
+            }
+
+            // Chọn thư mục có nhiều file nhất
+            let selectedFolder = folders[0];
+            if (folders.length > 1) {
+                folders.sort((a, b) => (b.fileCount || 0) - (a.fileCount || 0));
+                selectedFolder = folders[0];
+                _addDebugLog('info', `Có ${folders.length} thư mục, chọn "${selectedFolder.name}" (${selectedFolder.fileCount} file)`);
+                document.getElementById('folderStatus').textContent = `📁 ${folders.length} thư mục → chọn "${selectedFolder.name}"`;
+            } else {
+                _addDebugLog('info', `Tìm thấy 1 thư mục: "${selectedFolder.name}" (${selectedFolder.fileCount} file)`);
+                document.getElementById('folderStatus').textContent = `📁 "${selectedFolder.name}" (${selectedFolder.fileCount} file)`;
+            }
+
+            document.getElementById('folderStatus').className = 'status-badge info';
+
+            // Lấy danh sách file trong thư mục đã chọn
+            await selectFolder(selectedFolder.id, selectedFolder.name);
+
+        } catch (error) {
+            console.error(error);
+            const errorMsg = error.message || 'Lỗi không xác định';
+            setStatus('err', '❌ Lỗi: ' + errorMsg);
+            document.getElementById('fileList').innerHTML = '<div style="text-align:center; padding:20px; color:#ef4444;">❌ Lỗi: ' + esc(errorMsg) + '</div>';
+            document.getElementById('folderStatus').className = 'status-badge err';
+            document.getElementById('folderStatus').textContent = '❌ Lỗi: ' + errorMsg;
+            _addDebugLog('error', 'fetchFilesFromFolder: ' + errorMsg);
+            isScanComplete = true;
+            updateProcessButton();
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // CHỌN THƯ MỤC → LẤY DANH SÁCH FILE
+    // ═══════════════════════════════════════════════════════════
+    async function selectFolder(folderId, folderName) {
+        const url = getScriptUrl();
+        if (!url || !isApiConnected) return;
+
+        selectedFolderId = folderId;
+        selectedFolderName = folderName;
+        allFiles = [];
+        fileContents = {};
+        groupedData = {};
+        TOPICS.forEach((_, i) => groupedData[i + 1] = []);
+
+        isScanComplete = false;
+        btnProcess.disabled = true;
+
+        document.getElementById('fileList').innerHTML = '<div style="text-align:center; padding:20px; color:#94a3b8;">⏳ Đang lấy danh sách file...</div>';
+        setStatus('busy', `🔄 Đang lấy danh sách file trong "${folderName}"...`);
+        setProgress(10, 'Đang lấy danh sách file...');
+
+        try {
+            const apiUrl = url + '?action=list&subFolderId=' + encodeURIComponent(folderId);
+            _addDebugLog('info', 'Gọi API list: ' + apiUrl);
+            
+            const resp = await fetch(apiUrl);
+            if (!resp.ok) {
+                throw new Error('HTTP ' + resp.status + ' - ' + resp.statusText);
+            }
+            
+            const data = await resp.json();
+            if (!data.ok) {
+                throw new Error(data.error || 'Lỗi không xác định');
+            }
+
+            allFiles = (data.files || []).map(f => ({
+                id: f.id,
+                name: f.name,
+                path: f.path || folderName,
+                size: f.size || 0
+            }));
+
+            renderFileList(allFiles);
+            updateStats();
+
+            if (allFiles.length === 0) {
+                setStatus('wrn', `⚠️ Thư mục "${folderName}" không có file .docx nào`);
+                document.getElementById('btnExport').disabled = true;
+            } else {
+                setStatus('ok', `✅ Tìm thấy ${allFiles.length} file .docx trong "${folderName}"`);
+                document.getElementById('btnExport').disabled = true;
+                document.getElementById('folderStatus').className = 'status-badge ok';
+                document.getElementById('folderStatus').textContent = `✅ ${allFiles.length} file đã sẵn sàng`;
+            }
+            _addDebugLog('info', `Tìm thấy ${allFiles.length} file trong ${folderName}`);
+            hideProgress();
+
+        } catch (error) {
+            console.error(error);
+            const errorMsg = error.message || 'Lỗi không xác định';
+            setStatus('err', '❌ Lỗi: ' + errorMsg);
+            document.getElementById('fileList').innerHTML = '<div style="text-align:center; padding:20px; color:#ef4444;">❌ Lỗi: ' + esc(errorMsg) + '</div>';
+            hideProgress();
+        } finally {
+            isScanComplete = true;
+            updateProcessButton();
+        }
+    }
+
+    function renderFileList(files) {
+        const list = document.getElementById('fileList');
+
+        if (!files.length) {
+            list.innerHTML = '<div style="text-align:center; padding:20px; color:#94a3b8;">📭 Không có file .docx nào trong thư mục</div>';
+            return;
+        }
+
+        list.innerHTML = files.map(f => `
+            <div class="file-item" data-file-id="${esc(f.id)}">
+                <span class="icon">📄</span>
+                <span class="name">${esc(f.name)}</span>
+                <span class="status-badge wait">⏳ Chưa đọc</span>
+            </div>
+        `).join('');
+    }
+
+    function updateFileBadge(fileId, type, text) {
+        const item = document.querySelector(`.file-item[data-file-id="${CSS.escape(fileId)}"]`);
+        if (item) {
+            const badge = item.querySelector('.status-badge');
+            if (badge) {
+                badge.className = 'status-badge ' + type;
+                badge.textContent = text;
+            }
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // TẢI LẠI DANH SÁCH FILE
+    // ═══════════════════════════════════════════════════════════
+    async function reloadFiles() {
+        const defaultFolder = getDefaultFolder();
+        if (defaultFolder) {
+            // Reset dữ liệu cũ
+            allFiles = [];
+            fileContents = {};
+            groupedData = {};
+            TOPICS.forEach((_, i) => groupedData[i + 1] = []);
+            document.getElementById('resultPanel').style.display = 'none';
+            document.getElementById('sectionsContainer').innerHTML = '';
+            updateStats();
+            
+            isScanComplete = false;
+            btnProcess.disabled = true;
+            document.getElementById('btnExport').disabled = true;
+            
+            await fetchFilesFromFolder(defaultFolder);
+        } else {
+            setStatus('err', '❌ Chưa cấu hình DEFAULT_DRIVE_FOLDER trong config.js');
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // ĐỌC VÀ PHÂN TÍCH TẤT CẢ FILE
+    // ═══════════════════════════════════════════════════════════
+    async function processAllFiles() {
+        if (!allFiles.length) {
+            setStatus('err', '❌ Chưa có file nào. Hãy bấm "Tải lại file" trước.');
+            return;
+        }
+
+        const url = getScriptUrl();
+        if (!url || !isApiConnected) {
+            setStatus('err', '❌ Chưa kết nối được API');
+            return;
+        }
+
+        const total = allFiles.length;
+        let processed = 0;
+        let errors = 0;
+        fileContents = {};
+        groupedData = {};
+        TOPICS.forEach((_, i) => groupedData[i + 1] = []);
+
+        btnProcess.disabled = true;
+        document.getElementById('btnExport').disabled = true;
+
+        setStatus('busy', `🔄 Đang đọc và phân tích ${total} file...`);
+
+        document.getElementById('resultPanel').style.display = 'none';
+        document.getElementById('sectionsContainer').innerHTML = '';
+
+        const BATCH_SIZE = 5;
+        const CONCURRENCY = 4;
+        const MAX_RETRIES = 2;
+
+        const batches = [];
+        for (let b = 0; b < allFiles.length; b += BATCH_SIZE) {
+            batches.push(allFiles.slice(b, b + BATCH_SIZE));
+        }
+
+        let completedBatches = 0;
+
+        async function fetchBatch(batch, attempt = 0) {
+            batch.forEach(f => updateFileBadge(f.id, 'wait', attempt > 0 ? `🔄 Thử lại (lần ${attempt + 1})...` : '🔄 Đang đọc...'));
+            try {
+                const ids = batch.map(f => f.id).join(',');
+                const apiUrl = url + '?action=read&ids=' + encodeURIComponent(ids);
+                const resp = await fetch(apiUrl);
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const data = await resp.json();
+                if (!data.ok) throw new Error(data.error || 'Lỗi không xác định');
+                return data.results || [];
+            } catch (error) {
+                if (attempt < MAX_RETRIES) {
+                    _addDebugLog('warn', `Lô lỗi (lần ${attempt + 1}), thử lại: ${error.message}`);
+                    await sleep(700 * (attempt + 1));
+                    return fetchBatch(batch, attempt + 1);
+                }
+                _addDebugLog('error', `Lô lỗi sau ${MAX_RETRIES + 1} lần: ${error.message}`);
+                return batch.map(f => ({ id: f.id, name: f.name, ok: false, error: error.message }));
+            }
+        }
+
+        function applyResults(results) {
+            for (const res of results) {
+                processed++;
+                if (res.ok && res.html) {
+                    const opinions = extractOpinions(res.html, res.name);
+                    fileContents[res.id] = {
+                        html: res.html,
+                        name: res.name,
+                        opinions: opinions
+                    };
+
+                    opinions.forEach(op => {
+                        if (groupedData[op.topicIndex]) {
+                            groupedData[op.topicIndex].push({
+                                content: op.content,
+                                fileName: res.name,
+                                fileId: res.id
+                            });
+                        }
+                    });
+
+                    updateFileBadge(res.id, 'ok', `✅ ${opinions.length} ý kiến`);
+                } else {
+                    errors++;
+                    updateFileBadge(res.id, 'err', '❌ Lỗi đọc');
+                    _addDebugLog('error', `Lỗi file ${res.id}: ${res.error || 'unknown'}`);
+                }
+            }
+        }
+
+        let nextIndex = 0;
+        async function worker() {
+            while (nextIndex < batches.length) {
+                const myIndex = nextIndex++;
+                const results = await fetchBatch(batches[myIndex]);
+                applyResults(results);
+                completedBatches++;
+                const pct = 10 + (completedBatches / batches.length) * 80;
+                setProgress(pct, `Đang đọc file (${Math.min(processed, total)}/${total})...`);
+                updateStats();
+            }
+        }
+
+        const workerCount = Math.min(CONCURRENCY, batches.length);
+        await Promise.all(Array.from({ length: workerCount }, () => worker()));
+
+        setProgress(100, `Hoàn thành! Đã đọc ${processed - errors}/${processed} file`);
+
+        const successCount = processed - errors;
+        btnProcess.disabled = false;
+
+        if (successCount > 0) {
+            setStatus('ok', `✅ Hoàn thành! Đã đọc ${successCount} file, ${errors} file lỗi.`);
+            document.getElementById('btnExport').disabled = false;
+        } else {
+            setStatus('err', `❌ Tổng hợp thất bại! Cả ${errors} file đều lỗi.`);
+            document.getElementById('btnExport').disabled = true;
+        }
+
+        renderSections();
+        document.getElementById('resultPanel').style.display = 'block';
+
+        _addDebugLog('summary', `Tổng hợp: ${processed - errors} file, ${countTotalOpinions()} ý kiến`);
+        setTimeout(hideProgress, 1000);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // CHUẨN HÓA CHUỖI TIẾNG VIỆT
+    // ═══════════════════════════════════════════════════════════
+    function normalizeVN(str) {
+        return (str || '')
+            .toString()
+            .toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd')
+            .replace(/[^a-z0-9\s]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    const TOPICS_NORM = TOPICS.map(t => normalizeVN(t));
+
+    function titleMatchesTopic(candidateText, topicIdx0) {
+        const cand = normalizeVN(candidateText);
+        const topicNorm = TOPICS_NORM[topicIdx0];
+        if (!cand || !topicNorm) return false;
+        const len = Math.min(30, topicNorm.length, cand.length);
+        if (len < 8) return false;
+        const candPrefix = cand.slice(0, len);
+        const topicPrefix = topicNorm.slice(0, len);
+        let same = 0;
+        for (let i = 0; i < len; i++) { if (candPrefix[i] === topicPrefix[i]) same++; }
+        const ratio = same / len;
+        const shortLen = 12;
+        return ratio >= 0.6
+            || cand.startsWith(topicPrefix.slice(0, shortLen))
+            || topicNorm.startsWith(candPrefix.slice(0, shortLen));
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // PHÂN TÍCH HTML → TRÍCH XUẤT Ý KIẾN
+    // ═══════════════════════════════════════════════════════════
+    function extractOpinions(html, fileName) {
+        const opinions = [];
+        const container = document.createElement('div');
+        container.innerHTML = html;
+
+        const blockEls = Array.from(container.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, td, div'));
+        let paragraphs = blockEls
+            .map(el => (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim())
+            .filter(t => t.length > 0);
+
+        paragraphs = paragraphs.filter((t, i) => i === 0 || t !== paragraphs[i - 1]);
+
+        if (paragraphs.length === 0) {
+            const raw = (container.innerText || container.textContent || '');
+            paragraphs = raw.split('\n').map(s => s.trim()).filter(Boolean);
+        }
+
+        const headingRe = /^(\d{1,2})\s*[\.\)\:]\s*(.*)$/;
+        let currentTopic = -1;
+        let currentContent = [];
+
+        function flush() {
+            if (currentTopic > 0 && currentContent.length) {
+                const content = currentContent.join(' ').replace(/\s+/g, ' ').trim();
+                if (content.length > 2) {
+                    opinions.push({ topicIndex: currentTopic, content: content });
+                }
+            }
+            currentContent = [];
+        }
+
+        paragraphs.forEach(p => {
+            const m = p.match(headingRe);
+            if (m) {
+                const num = parseInt(m[1], 10);
+                const rest = m[2].trim();
+                if (num >= 1 && num <= TOPICS.length && (rest.length === 0 || titleMatchesTopic(rest, num - 1))) {
+                    flush();
+                    currentTopic = num;
+                    return;
+                }
+            }
+            if (currentTopic > 0) {
+                currentContent.push(p);
+            }
+        });
+        flush();
+
+        _addDebugLog('parse', `${fileName}: ${opinions.length} ý kiến (${opinions.map(o=>o.topicIndex).join(',')})`);
+        return opinions;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // RENDER KẾT QUẢ
+    // ═══════════════════════════════════════════════════════════
+    function renderSections() {
+        const container = document.getElementById('sectionsContainer');
+        let html = '';
+
+        TOPICS.forEach((title, idx) => {
+            const key = idx + 1;
+            const opinions = groupedData[key] || [];
+            const count = opinions.length;
+
+            html += `
+                <div class="section-group">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <span>${key}. ${title}</span>
+                        <span class="count">${count} ý kiến</span>
+                    </div>
+                    <div class="section-body">
+                        ${count === 0 ? '<div class="empty-msg">Chưa có ý kiến cho mục này</div>' : ''}
+                        ${opinions.map((op, i) => `
+                            <div class="opinion-item">
+                                <div class="content">✎ ${esc(op.content)}</div>
+                                <div class="meta">
+                                    <span>📄 ${esc(op.fileName)}</span>
+                                    <span class="file-ref">#${i+1}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    function toggleSection(el) {
+        const body = el.nextElementSibling;
+        body.style.display = body.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function toggleAllSections(open) {
+        document.querySelectorAll('.section-body').forEach(body => {
+            body.style.display = open ? 'block' : 'none';
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // CẬP NHẬT THỐNG KÊ
+    // ═══════════════════════════════════════════════════════════
+    function updateStats() {
+        const total = allFiles.length;
+        const readCount = Object.keys(fileContents).length;
+        const errorCount = total - readCount;
+        const opinionCount = countTotalOpinions();
+        let filledTopics = 0;
+
+        TOPICS.forEach((_, i) => {
+            if ((groupedData[i + 1] || []).length > 0) filledTopics++;
+        });
+
+        document.getElementById('totalFiles').textContent = total;
+        document.getElementById('readFiles').textContent = readCount;
+        document.getElementById('errorFiles').textContent = errorCount;
+        document.getElementById('totalOpinions').textContent = opinionCount;
+        document.getElementById('filledTopics').textContent = filledTopics;
+    }
+
+    function countTotalOpinions() {
+        let total = 0;
+        TOPICS.forEach((_, i) => {
+            total += (groupedData[i + 1] || []).length;
+        });
+        return total;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // XUẤT WORD
+    // ═══════════════════════════════════════════════════════════
+    async function exportWord() {
+        const totalOpinions = countTotalOpinions();
+        if (totalOpinions === 0) {
+            setStatus('err', '❌ Không có ý kiến để xuất. Hãy tổng hợp trước.');
+            return;
+        }
+
+        const lib = (typeof docx !== 'undefined') ? docx : null;
+        if (!lib || !lib.Document || !lib.Packer) {
+            setStatus('err', '❌ Thư viện docx chưa được tải. Vui lòng kiểm tra kết nối internet.');
+            return;
+        }
+
+        document.getElementById('btnExport').disabled = true;
+        setStatus('busy', '📄 Đang tạo file Word tổng hợp...');
+        setProgress(10, 'Đang tạo file Word...');
+
+        try {
+            const { Document, Paragraph, TextRun, AlignmentType, Packer } = lib;
+
+            const children = [];
+
+            children.push(new Paragraph({
+                children: [new TextRun({ text: 'TỔNG HỢP Ý KIẾN GÓP Ý XÂY DỰNG LỰC LƯỢNG CAND PHƯỜNG', bold: true, size: 32, font: 'Times New Roman' })],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 200, before: 400 }
+            }));
+
+            children.push(new Paragraph({
+                children: [new TextRun({ text: 'Diễn đàn "Nhân dân tham gia góp ý xây dựng lực lượng Công an nhân dân phường" - Năm 2026', size: 22, font: 'Times New Roman' })],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 300 }
+            }));
+
+            const totalFiles = allFiles.length;
+            const readFiles = Object.keys(fileContents).length;
+            children.push(new Paragraph({
+                children: [new TextRun({ text: `Tổng số file góp ý: ${readFiles}/${totalFiles}  |  Tổng số ý kiến: ${totalOpinions}`, size: 20, font: 'Times New Roman' })],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 300 }
+            }));
+
+            TOPICS.forEach((title, idx) => {
+                const key = idx + 1;
+                const opinions = groupedData[key] || [];
+
+                children.push(new Paragraph({
+                    children: [new TextRun({ text: `${key}. ${title}`, bold: true, size: 26, font: 'Times New Roman' })],
+                    spacing: { before: 300, after: 120 }
+                }));
+
+                if (opinions.length === 0) {
+                    children.push(new Paragraph({
+                        children: [new TextRun({ text: 'Chưa có ý kiến góp ý cho mục này.', size: 22, font: 'Times New Roman', color: '808080' })],
+                        spacing: { after: 100, indent: { firstLine: 360 } }
+                    }));
+                } else {
+                    opinions.forEach((op) => {
+                        children.push(new Paragraph({
+                            children: [new TextRun({ text: op.content, size: 22, font: 'Times New Roman' })],
+                            spacing: { after: 100, indent: { firstLine: 360 } }
+                        }));
+                    });
+                }
+
+                children.push(new Paragraph({
+                    children: [new TextRun({ text: '──────────────────────────────────────────────────────', size: 18, font: 'Times New Roman', color: 'cccccc' })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { before: 80 }
+                }));
+            });
+
+            const today = new Date();
+            const dateStr = `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
+            children.push(new Paragraph({
+                children: [new TextRun({ text: `Ngày tổng hợp: ${dateStr}`, size: 20, font: 'Times New Roman' })],
+                alignment: AlignmentType.CENTER,
+                spacing: { before: 200 }
+            }));
+
+            children.push(new Paragraph({
+                children: [new TextRun({ text: `Tổng số file đã tổng hợp: ${readFiles} file`, size: 18, font: 'Times New Roman' })],
+                alignment: AlignmentType.CENTER,
+                spacing: { before: 100 }
+            }));
+
+            const doc = new Document({
+                sections: [{
+                    properties: {
+                        page: {
+                            margin: { top: 1440, bottom: 1440, left: 1800, right: 1080 }
+                        }
+                    },
+                    children: children
+                }]
+            });
+
+            const blob = await Packer.toBlob(doc);
+            const filename = `Tong_hop_gop_y_CAND_${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}.docx`;
+            triggerDownload(blob, filename);
+
+            setStatus('ok', `✅ Đã xuất file Word thành công: ${filename}`);
+            setProgress(100, 'Hoàn thành!');
+            _addDebugLog('export', `Xuất file: ${filename}`);
+
+        } catch (error) {
+            console.error(error);
+            setStatus('err', '❌ Lỗi xuất Word: ' + error.message);
+            _addDebugLog('error', `Export Word: ${error.message}`);
+        } finally {
+            document.getElementById('btnExport').disabled = false;
+            setTimeout(hideProgress, 1500);
+        }
+    }
+
+    function triggerDownload(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // DEBUG
+    // ═══════════════════════════════════════════════════════════
+    function showDebugLog() {
+        const w = window.open('', '_blank', 'width=800,height=500');
+        if (w) {
+            w.document.write(`
+                <html><head><title>Debug Log - Tổng hợp góp ý</title>
+                <style>body{font-family:monospace;font-size:12px;background:#0f172a;color:#e2e8f0;padding:16px;white-space:pre-wrap;line-height:1.6;}
+                .INFO{color:#7dd3fc;}.PARSE{color:#86efac;}.SUMMARY{color:#c4b5fd;font-weight:700;}
+                .ERROR{color:#f87171;font-weight:700;}.WARN{color:#fdba74;}</style></head><body>
+            `);
+            debugLog.forEach(e => {
+                w.document.write(`<div class="${e.type.toUpperCase()}">[${e.type.toUpperCase()}] ${esc(e.msg)}</div>`);
+            });
+            w.document.write(`</body></html>`);
+            w.document.close();
+        } else {
+            console.log('Debug Log:', debugLog);
+            setStatus('wrn', 'Mở cửa sổ mới bị chặn. Xem log tại Console (F12)');
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // KHỞI ĐỘNG
+    // ═══════════════════════════════════════════════════════════
+    window.onload = function() {
+        initApp();
+    };
+</script>
+</body>
+</html>
